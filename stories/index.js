@@ -1,6 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { Fragment } from 'react'
 
 import "index.scss";
 
@@ -175,6 +176,21 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onSave={action('onSave')}
       onCancel={action('onCancel')}
-      onSubmit={event => event.preventDefault()}
     />
-  ));
+  ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
