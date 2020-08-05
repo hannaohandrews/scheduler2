@@ -163,7 +163,7 @@ storiesOf("Appointment", module)
   .add("Error", () => <Error onClose={action("onClose")} />)
   .add('Edit', () => (
     <Form
-      name="Hanna"
+      name={name}
       interviewers={interviewers}
       interviewer={interviewers[0].id}
       onSave={action('onSave')}
@@ -175,5 +175,6 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onSave={action('onSave')}
       onCancel={action('onCancel')}
+      onSubmit={event => event.preventDefault()}
     />
   ));
