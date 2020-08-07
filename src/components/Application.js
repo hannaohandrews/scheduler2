@@ -4,6 +4,7 @@ import { getInterview } from "../helpers/selectors";
 import axios from "axios";
 import Appointment from 'components/Appointment';
 import DayList from "components/DayList.js";
+import useVisualMode from "hooks/useVisualMode";
 import "components/Application.scss";
 
 const days= [
@@ -70,6 +71,13 @@ const appointmentsData = [
 
 
 export default function Application(props) {
+
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+
+  const {mode, transition, back} = useVisualMode (
+    props.interview? SHOW:EMPTY
+  );
 
   // const appointments = appointmentsData.map(appointment => {
   //   return (
