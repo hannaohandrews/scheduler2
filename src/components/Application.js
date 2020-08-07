@@ -1,5 +1,6 @@
 import React, { useState ,useEffect } from "react";
-import {getAppointmentsForDay} from "../helpers/selectors";
+import { getAppointmentsForDay } from "../helpers/selectors";
+import { getInterview } from "../helpers/selectors";
 import axios from "axios";
 import Appointment from 'components/Appointment';
 import DayList from "components/DayList.js";
@@ -79,28 +80,44 @@ export default function Application(props) {
   const [state, setState] = useState ( {
     day : 'Monday',
     days : [],
-    appointments : {}
+    appointments : {},
+    interviewers:{}
   });
 
   const appointments = getAppointmentsForDay(state, state.day);
+  const schedule = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
 
-  const [day, setday] = useState('Monday')
+
+
+  // const [day, setday] = useState('Monday')
   const setDay = day => setState(prev => ({ ...prev, day }));
   const setDays = days => setState(prev => ({ ...prev, days }));
+  const setInterviewers = interviewers => setState(prev => ({ ...prev, interviewers }));
 
   React.useEffect(() => {
 
-    const promiseOne = axios.get("/api/days")
-    const promiseTwo = axios.get("/api/appointments")
-
-    Promise.all([promiseOne,promiseTwo]) 
+    Promise.all([
+     Promise.resolve(axios.get('/api/days')),
+     Promise.resolve(axios.get('/api/appointments')),
+     Promise.resolve(axios.get('/api/interviewers')),
+    ])
     .then((all) => {
-    setState(state => ({ ...state,days: all[0].data, appointments: all[1].data }));
+      console.log(all[2].data)
+    setState(prev => ({ ...prev, days: all[0].data,appointments: all[1].data, interviewers: all[2].data}))
     })
-  })
+  },[]) ;
 
-  console.log(appointments)
-  console.log(days)
+
   return (
     
     <main className="layout">
@@ -125,7 +142,7 @@ export default function Application(props) {
         />
       </section>
       <section>
-        {appointments}
+      appointments
         <Appointment key="last" time="5pm" />
       </section>
 
