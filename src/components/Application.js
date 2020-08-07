@@ -1,12 +1,11 @@
-
 import React, { useState ,useEffect } from "react";
+import {getAppointmentsForDay} from "../helpers/selectors";
 import axios from "axios";
 import Appointment from 'components/Appointment';
 import DayList from "components/DayList.js";
 import "components/Application.scss";
 
-
-const DAYS = [
+const days= [
   {
     id: 1,
     name: "Monday",
@@ -68,26 +67,42 @@ const appointmentsData = [
 
 ];
 
+
 export default function Application(props) {
 
-  const [days, setdays] = useState([])
-  const [day, setday] = useState('Monday')
-  
-  const appointments = appointmentsData.map(appointment => {
-    return (
-    <Appointment key={appointment.id} {...appointment} />
-    );
+  // const appointments = appointmentsData.map(appointment => {
+  //   return (
+  //   <Appointment key={appointment.id} {...appointment} />
+  //   );
+  // });
+ 
+  const [state, setState] = useState ( {
+    day : 'Monday',
+    days : [],
+    appointments : {}
   });
 
-  useEffect(() => {
-    axios.get('/api/days').then((response) => {
-    setdays(response.data)
+  const appointments = getAppointmentsForDay(state, state.day);
+
+  const [day, setday] = useState('Monday')
+  const setDay = day => setState(prev => ({ ...prev, day }));
+  const setDays = days => setState(prev => ({ ...prev, days }));
+
+  React.useEffect(() => {
+
+    const promiseOne = axios.get("/api/days")
+    const promiseTwo = axios.get("/api/appointments")
+
+    Promise.all([promiseOne,promiseTwo]) 
+    .then((all) => {
+    setState(state => ({ ...state,days: all[0].data, appointments: all[1].data }));
     })
-   
-  }, [])
+  })
 
-
+  console.log(appointments)
+  console.log(days)
   return (
+    
     <main className="layout">
       <section className="sidebar">
         <img
@@ -98,9 +113,9 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
-            setDay={day => setday(day)}
+            days={state.days}
+            day={state.day}
+            setDay={setDay}
           />
         </nav>
         <img
