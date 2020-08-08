@@ -93,8 +93,10 @@ export default function Application(props) {
     interviewers:{}
   });
 
+ 
   const appointments = getAppointmentsForDay(state, state.day);
-  
+
+
   const schedule 
   = appointments.map((appointment) => {
 
@@ -127,12 +129,12 @@ export default function Application(props) {
      Promise.resolve(axios.get('/api/interviewers')),
     ])
     .then((all) => {
-      console.log(all[2].data)
+ 
     setState(prev => ({days: all[0].data,appointments: all[1].data, interviewers: all[2].data}))
     })
   },[]) ;
 
-
+  console.log('appointments',appointments)
   return (
     
     <main className="layout">

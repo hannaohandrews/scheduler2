@@ -3,8 +3,8 @@ import Header from "components/Appointment/Header.js";
 import Empty from "components/Appointment/Empty.js";
 import Show from "components/Appointment/Show.js";
 import Form from "components/Appointment/Form.js";
-import "components/Appointment/styles.scss";
 import useVisualMode from "hooks/useVisualMode";
+import "components/Appointment/styles.scss";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -24,9 +24,11 @@ const {mode, transition, back} = useVisualMode (
   return (
 
     <article className="appointment">
+
       <Header time={props.time} />
 
       {mode === EMPTY && <Empty onAdd={onAdd} />}
+
       {mode === SHOW && (
         <Show
           student={props.interview.student}
@@ -35,8 +37,9 @@ const {mode, transition, back} = useVisualMode (
       )}
        {mode === CREATE && (
         <Form
-        interviewers={props.interviewers}
+        interviewers={props.interviewers} onCancel ={back}
         />
+    
       )}
       
     </article>
