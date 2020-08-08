@@ -1,6 +1,5 @@
 import React, { useState ,useEffect } from "react";
-import { getAppointmentsForDay } from "../helpers/selectors";
-import { getInterview } from "../helpers/selectors";
+import { getInterview, getInterviewersForDay , getAppointmentsForDay } from "../helpers/selectors";
 import axios from "axios";
 import Appointment from 'components/Appointment';
 import DayList from "components/DayList.js";
@@ -79,7 +78,6 @@ export default function Application(props) {
   const CREATE = "CREATE";
 
 
-
   // const appointments = appointmentsData.map(appointment => {
   //   return (
   //   <Appointment key={appointment.id} {...appointment} />
@@ -95,13 +93,11 @@ export default function Application(props) {
 
  
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state,state.day)
 
-
-  const schedule 
-  = appointments.map((appointment) => {
+  const schedule = appointments.map((appointment) => {
 
     const interview = getInterview(state, appointment.interview);
-    // const interviewers = getInterview(state, appointment.interviewers);
 
     return (
       <Appointment
@@ -113,7 +109,6 @@ export default function Application(props) {
       />
     );
   });
-
 
 
   // const [day, setday] = useState('Monday')
