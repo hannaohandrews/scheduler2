@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
-import {bookInterview} from "components/Application.js"
+import Appointment from 'components/Appointment/index';
 
 
 export default function Form(props) {
 
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  
+  const [error, setError] = React.useState("");
+
   function reset() {
     setName('');
     setInterviewer(null);
@@ -19,23 +20,20 @@ export default function Form(props) {
     props.onCancel();
   };
 
-  function save(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-  }
-
-  const saveSave = function(id,interview){
-    props.bookInterview((id,interview))
-    console.log(id, interview);
-  }
+  const validate = () => {
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+    setError("");
+    props.onSave(name, interviewer);
+  };
 
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off">
+        <form onSubmit={event => event.preventDefault()} autoComplete="off">
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
@@ -43,7 +41,7 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             value={name}
             onChange={event => setName(event.target.value)}
-            onSubmit={event => event.preventDefault()}
+            
           />
         </form>
         <InterviewerList 
@@ -54,8 +52,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button onClick={cancel} danger>Cancel</Button>
-          {/* <Button onClick={()=> props.onSave(name,interviewer)} confirm>Save</Button> */}
-          <Button onClick={saveSave} confirm>Save</Button>
+          <Button onClick={validate} confirm>Save</Button>
         </section>
       </section>
     </main>

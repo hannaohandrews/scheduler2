@@ -44,7 +44,7 @@ export function getInterviewersForDay(state, day) {
      return [];
    }
    const intPeople = currentDay.interviewers.map(
-     (id) => state.appointments[id]
+     (id) => state.interviewers[id]
    );
 
    console.log('int',intPeople)

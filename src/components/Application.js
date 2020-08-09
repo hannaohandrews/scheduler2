@@ -1,9 +1,8 @@
 import React, { useState ,useEffect } from "react";
 import { getInterview, getInterviewersForDay , getAppointmentsForDay } from "../helpers/selectors";
 import axios from "axios";
-import Appointment from 'components/Appointment';
+import Appointment from 'components/Appointment/index';
 import DayList from "components/DayList.js";
-import useVisualMode from "hooks/useVisualMode";
 
 import "components/Application.scss";
 
@@ -91,28 +90,9 @@ export default function Application(props) {
     interviewers:{}
   });
 
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    console.log(id, interview);
-
-  setState({
-    ...state,
-    appointments
-  })
-
-  }
-
 
   const appointments = getAppointmentsForDay(state, state.day);
+
   const interviewers = getInterviewersForDay(state,state.day)
 
   const schedule = appointments.map((appointment) => {
@@ -126,6 +106,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
@@ -149,6 +130,27 @@ export default function Application(props) {
     setState(prev => ({days: all[0].data,appointments: all[1].data, interviewers: all[2].data}))
     })
   },[]) ;
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    console.log('id,interview',id, interview);
+
+    setState({
+      ...state,
+     appointments
+    })
+
+  };
+
 
 
   return (
@@ -176,7 +178,7 @@ export default function Application(props) {
       </section>
       <section>
       {schedule}
-        <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" bookInterview= {bookInterview} />
       </section>
 
     </main>
