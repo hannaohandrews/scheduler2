@@ -91,7 +91,27 @@ export default function Application(props) {
     interviewers:{}
   });
 
- 
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    console.log(id, interview);
+
+  setState({
+    ...state,
+    appointments
+  })
+
+  }
+
+
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state,state.day)
 
@@ -110,6 +130,7 @@ export default function Application(props) {
     );
   });
 
+ 
 
   // const [day, setday] = useState('Monday')
   const setDay = day => setState(prev => ({ ...state, day }));
@@ -129,7 +150,7 @@ export default function Application(props) {
     })
   },[]) ;
 
-  console.log('appointments',appointments)
+
   return (
     
     <main className="layout">
