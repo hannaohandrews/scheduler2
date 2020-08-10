@@ -8,7 +8,7 @@ import {
   getInterview,
   getInterviewersForDay,
 } from "../helpers/selectors";
-import { useApplicationData } from "../hooks/useApplicationData.js";
+import useApplicationData from "../hooks/useApplicationData.js";
 
 export default function Application(props) {
   const {

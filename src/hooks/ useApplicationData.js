@@ -1,15 +1,10 @@
-import { useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import reducer, {
-  SET_DAY,
-  SET_APPLICATION_DATA,
-  SET_INTERVIEW,
-  UPDATE_SPOTS
-} from "../reducer/application";
 
 
 export default function useApplicationData(props) {
 
+    // create state object that contain all values 
     const [state, setState] = useState({
       day: "Monday",
       days: [],
@@ -17,6 +12,8 @@ export default function useApplicationData(props) {
       interviewers: {},
     });
   
+    const setDay = day => setState({ ...state, day });
+
     const interviewers = getInterviewersForDay(state, state.day);
   
     const appointments = getAppointmentsForDay(state, state.day).map(
@@ -65,7 +62,7 @@ export default function useApplicationData(props) {
         [id]: appointment,
       };
   
-        axios
+        return axios
         .put(`http://localhost:8001/api/appointments/${id}`, { interview })
         .then((res) => {
           setState({ ...state, appointments });
@@ -87,7 +84,7 @@ export default function useApplicationData(props) {
         [id]: appointment,
       };
   
-       axios
+       return axios
         .delete(`http://localhost:8001/api/appointments/${id}`)
         .then((res) => {
           setState({ ...state, appointments });
