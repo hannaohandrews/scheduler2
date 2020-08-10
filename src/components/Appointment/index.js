@@ -1,19 +1,20 @@
 import React from "react";
-import Header from "components/Appointment/Header.js";
-import Empty from "components/Appointment/Empty.js";
-import Show from "components/Appointment/Show.js";
-import Form from "components/Appointment/Form.js";
-import useVisualMode from "hooks/useVisualMode";
-
 import "components/Appointment/styles.scss";
+import Header from "components/Appointment/Header";
+import Show from "components/Appointment/Show";
+import Empty from "components/Appointment/Empty";
+import useVisualMode from "hooks/useVisualMode";
+import Form from "components/Appointment/Form";
+import Status from "components/Appointment/Status";
+import Confirm from "components/Appointment/Confirm";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE"
 const SAVING = "SAVING"
-//const CONFIRM = "CONFIRM"
+const CONFIRM = "CONFIRM"
 const EDIT = "EDIT"
-const DELETE = "DELETE"
+const DELETING = "DELETING"
 
 export default function Appointment(props) {
  
@@ -25,11 +26,11 @@ const {mode, transition, back} = useVisualMode (
     transition(CREATE)
   };
 
-  function onDelete() {
+  const onDelete =() => {
     transition(CONFIRM)
   };
 
-  function edit() {
+  const edit =() => {
     transition(EDIT)
   };
 
@@ -41,7 +42,7 @@ const {mode, transition, back} = useVisualMode (
     transition(SAVING);
   
     props
-      .bookInterview(props.id, props.interview)
+      .bookInterview(props.id, interview)
       .then(() => {
         transition(SHOW)
       })
@@ -60,22 +61,43 @@ const {mode, transition, back} = useVisualMode (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={onDelete}
+          onEdit={edit}
         />
       )}
 
        {mode === CREATE && (
         <Form
         interviewers={props.interviewers} 
-        onCancel={back} 
+        //onCancel={back} 
+        onCancel={(event) => back()}
         onSave={save}
         />
       )}
+      {mode === CONFIRM && (
+        <Confirm
+          message="You will lose your interview, are you sure?"
+          onCancel={(event) => back()}
+          //onConfirm={cancel} 
+        />
+      )}
+
       {mode === DELETING && (
         <Status message="Deleting"/>
         )}
+        
+        {mode === SAVING && (
+        <Status message="Saving"/>
+      )}
+
       {mode === EDIT && (
         <Form 
-        
+        student={props.interview.student}
+        interviewer={props.interview.interviewer.id}
+        interviewers={props.interviewers} 
+        name={props.interview.student}
+        onCancel={back} 
+        onSave={save}
         
         />
       )}

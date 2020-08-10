@@ -97,7 +97,7 @@ export default function Application(props) {
 
   const schedule = appointments.map((appointment) => {
 
-    const interview = getInterview(state, appointment.interview);
+  const interview = getInterview(state, appointment.interview);
 
     return (
       <Appointment
@@ -150,7 +150,6 @@ export default function Application(props) {
     })
 
   };
-
 
 
   return (
