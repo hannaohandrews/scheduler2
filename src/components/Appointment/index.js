@@ -1,25 +1,26 @@
-import React from "react";
+import React, { Fragment } from 'react';
 import "./styles.scss";
-import Header from "components/Appointments/header";
-import Show from "components/Appointments/Show";
-import Empty from "components/Appointments/Empty";
-import { useVisualMode } from "hooks/useVisualMode";
-import Form from "components/Appointments/Form";
-import Status from "components/Appointments/Status";
-import Confirm from "components/Appointments/Confirm";
-import Error from "components/Appointments/Error";
-
-const EMPTY = "EMPTY";
-const SHOW = "SHOW";
-const CREATE = "CREATE";
-const SAVING = "SAVING";
-const DELETING = "DELETING";
-const CONFIRM = "CONFIRM";
-const EDIT = "EDIT";
-const ERROR_SAVE = "ERROR_SAVE";
-const ERROR_DELETE = "ERROR_DELETE";
+import Header from './Header';
+import Show from './Show';
+import Empty from './Empty';
+import Error from './Error';
+import Form from './Form';
+import Status from './Status';
+import Confirm from './Confirm';
+import useVisualMode from '../../hooks/useVisualMode';
 
 export default function Appointment(props) {
+
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+  const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const DELETING = "DELETING";
+  const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
+  
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -49,33 +50,30 @@ export default function Appointment(props) {
     };
     transition(SAVING);
 
-    console.log(props.id);
-    console.log(interview);
-
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch((error) => transition(ERROR_SAVE, true));
   };
 
-  const remove = () => {
-    transition(CONFIRM);
-  };
+  // const remove = () => {
+  //   transition(CONFIRM);
+  // };
 
-  function confirm(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer,
-    };
-    transition(DELETING);
+  // function deletingInterview(id) {
+  //   const interview = {
+  //     student: name,
+  //     interviewer,
+  //   };
+  //   transition(DELETING);
 
-    props
-      .cancelInterview(props.id, interview)
-      .then(() => transition(EMPTY))
-      .catch((error) => transition(ERROR_DELETE, true));
-  }
+  //   props
+  //     .cancelInterview(props.id, interview)
+  //     .then(() => transition(EMPTY))
+  //     .catch((error) => transition(ERROR_DELETE, true));
+  // }
 
-  function destroy(event) {
+  function deletingInterview(id) {
     transition(DELETING, true);
     props
       .cancelInterview(props.id)
@@ -93,24 +91,27 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onDelete={onDelete}
-          onEdit={edit}
+          onDelete={e => transition(CONFIRM)}
+          onEdit={e => transition(EDIT)}
         />
       )}
 
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
-          onCancel={back}
           onCancel={(event) => back()}
           onSave={save}
+          bookInterview = {props.bookInterview}
+          id = {props.id}
+          interview = {props.interview}
+
         />
       )}
       {mode === CONFIRM && (
         <Confirm
           message="You will lose your interview, are you sure?"
           onCancel={(event) => back()}
-          onConfirm={confirm}
+          onConfirm={(event) => deletingInterview(props.id)}
         />
       )}
 
@@ -125,6 +126,8 @@ export default function Appointment(props) {
           name={props.interview.student}
           onCancel={(event) => back()}
           onSave={save}
+          bookInterview = {props.bookInterview}
+          id = {props.id}
         />
       )}
 
