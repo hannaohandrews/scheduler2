@@ -30,10 +30,17 @@ export default function useApplicationData() {
     };
 
     return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .put(`/api/appointments/${id}`, { interview })
       .then((res) => {
-        setState({ ...state, appointments });
-        return res;
+        const daysArray = [];
+        for (let i of state.days){
+          daysArray.push(i)
+          if(i.name === state.day) {
+            daysArray[daysArray.indexOf(i)].spots -= 1;
+          }
+        }
+        setState({ ...state, days : daysArray });
+        return setState({...state, appointments});
       })
       .catch((err) => {
         console.log(err);
@@ -51,16 +58,22 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`,{ appointment})
-      .then((res) => {
-        setState({ ...state, appointments });
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return axios.delete(`/api/appointments/${id}`, {appointment} )
+    .then((res) => {
+     
+      const daysArray = [];
+      for (let i of state.days) {
+        daysArray.push(i);
+        if (i.name === state.day) {
+          daysArray[daysArray.indexOf(i)].spots += 1;
+        }
+      }
+      console.log('daysArray',daysArray)
+      setState({...state, days: daysArray});
+      return setState({...state, appointments: appointments});
+    })
   };
+
 
   React.useEffect(() => {
     Promise.all([
