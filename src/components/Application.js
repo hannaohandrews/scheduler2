@@ -1,36 +1,40 @@
 import React from "react";
+import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointments/index";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
-import {useApplicationData} from "../hooks/useApplicationData.js";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
+import { useApplicationData } from "../hooks/useApplicationData.js";
 
 export default function Application(props) {
-  
   const {
     state,
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
   } = useApplicationData();
-
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+
   const schedule = appointments.map((appointment) => {
-  const interview = getInterview(state, appointment.interview);
-  return (
-    <Appointment
-      key={appointment.id}
-      id={appointment.id}
-      time={appointment.time}
-      interview={interview}
-      interviewers={interviewers}
-      bookInterview={bookInterview}
-      cancelInterview={cancelInterview}
-    />
-  );
-});
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={getInterview(state, appointment.interview)}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    );
+  });
 
   return (
     <main className="layout">
@@ -58,6 +62,4 @@ export default function Application(props) {
       </section>
     </main>
   );
-
-
 }
