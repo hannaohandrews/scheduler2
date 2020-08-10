@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function useApplicationData(props) {
+export default function useApplicationData() {
 
   // create state object that contain all values
   const [state, setState] = useState({
@@ -13,24 +13,10 @@ export default function useApplicationData(props) {
 
   // const [day, setday] = useState('Monday')
   const setDay = (day) => setState((prev) => ({ ...state, day }));
-  const setDays = (days) => setState((prev) => ({ ...prev, days }));
+  // const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   const setInterviewers = (interviewers) =>
     setState((prev) => ({ ...prev, interviewers }));
-
-  React.useEffect(() => {
-    Promise.all([
-      Promise.resolve(axios.get("/api/days")),
-      Promise.resolve(axios.get("/api/appointments")),
-      Promise.resolve(axios.get("/api/interviewers")),
-    ]).then((all) => {
-      setState((prev) => ({
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data,
-      }));
-    });
-  }, []);
 
 // bookingInterview 
   function bookInterview(id, interview) {
@@ -52,8 +38,7 @@ export default function useApplicationData(props) {
       .catch((err) => {
         console.log(err);
       });
-    // })
-  }
+  };
 
   // Cancelling Interview 
   function cancelInterview(id) {
@@ -75,8 +60,21 @@ export default function useApplicationData(props) {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
+  React.useEffect(() => {
+    Promise.all([
+      Promise.resolve(axios.get("/api/days")),
+      Promise.resolve(axios.get("/api/appointments")),
+      Promise.resolve(axios.get("/api/interviewers")),
+    ]).then((all) => {
+      setState((prev) => ({
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
+  }, []);
   
   return {
     state,

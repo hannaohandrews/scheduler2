@@ -60,18 +60,6 @@ export default function Appointment(props) {
   //   transition(CONFIRM);
   // };
 
-  // function deletingInterview(id) {
-  //   const interview = {
-  //     student: name,
-  //     interviewer,
-  //   };
-  //   transition(DELETING);
-
-  //   props
-  //     .cancelInterview(props.id, interview)
-  //     .then(() => transition(EMPTY))
-  //     .catch((error) => transition(ERROR_DELETE, true));
-  // }
 
   function deletingInterview(id) {
     transition(DELETING, true);

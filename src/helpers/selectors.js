@@ -10,8 +10,11 @@ export function getAppointmentsForDay(state, day) {
   const appointments = currentDay.appointments.map(
     (id) => state.appointments[id]
   );
+ 
+  console.log(appointments)
   return appointments;
 }
+
 
 // An Interview
 export function getInterview(state, interview) {
@@ -47,7 +50,33 @@ export function getInterviewersForDay(state, day) {
      (id) => state.interviewers[id]
    );
 
-   console.log('int',intPeople)
+  //  console.log('int',intPeople)
 
    return intPeople;
  }
+
+ //Appointments for the day
+export function getSpotsForDay(state, day) {
+  const currentDay = state.days.find((d) => d.name === day);
+  const count = []
+
+  if (!currentDay) {
+    return [];
+  }
+
+  const appointments = currentDay.appointments.map(
+    (id) => state.appointments[id]
+  );
+
+
+  for(let i in appointments) {
+    if ((appointments[i].interview) === null){
+      count += 1
+    }
+  }
+
+  return appointments;
+}
+
+
+
