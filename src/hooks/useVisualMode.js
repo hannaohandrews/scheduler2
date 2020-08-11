@@ -22,10 +22,10 @@ export default function useVisualMode(initial) {
         //   console.log(setMode(initial))
       } else{
           // get the old history 
-          console.log('history',history) /// first, second, third
-          console.log('length',history.length) /// 3
-          console.log('history[1]',history[1]) // = history.length - 2
-          console.log('history.length-2',history[history.length-2] )
+          // console.log('history',history) /// first, second, third
+          // console.log('length',history.length) /// 3
+          // console.log('history[1]',history[1]) // = history.length - 2
+          // console.log('history.length-2',history[history.length-2] )
           // set the mode to old history
         setMode(history[history.length-2]);
         // set history 

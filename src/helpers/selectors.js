@@ -11,7 +11,7 @@ export function getAppointmentsForDay(state, day) {
     (id) => state.appointments[id]
   );
  
-  console.log(appointments)
+  // console.log(appointments)
   return appointments;
 }
 
@@ -40,18 +40,17 @@ export function getInterview(state, interview) {
 // Gets the interviewers for a given day
 export function getInterviewersForDay(state, day) {
    const currentDay = state.days.find((d) => d.name === day);
-
+   
    if (!currentDay) {
      return [];
    }
-   const intPeople = currentDay.interviewers.map(
-     (id) => state.interviewers[id]
+
+   const interviewers = currentDay.interviewers.map (
+     id => state.interviewers[id]
    );
 
-   console.log('int',intPeople)
+   console.log('int',interviewers)
 
-   return intPeople;
+   return interviewers;
  }
-
-
 
