@@ -35,10 +35,23 @@ export default function useApplicationData() {
         for (let i of state.days){
           daysArray.push(i)
           if(i.name === state.day) {
-            daysArray[daysArray.indexOf(i)].spots -= 1;
+            daysArray[daysArray.indexOf(i)] = {
+              ...i,
+              spots: i.spots - 1,
+            }
           }
         }
-        return setState((prevState) => ({ ...prevState, appointments, days: daysArray }));
+        // const daysArray = state.days.map(day => {
+        //   if (day.name === state.day) {
+        //     return {
+        //       ...day,
+        //       spots: day.spots - 1
+        //     }
+        //   }
+        //   return { ...day }
+        // })
+        
+        setState((prevState) => ({ ...prevState, appointments, days: daysArray }));
        
       })
       .catch((err) => {

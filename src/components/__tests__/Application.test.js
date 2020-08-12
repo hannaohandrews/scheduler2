@@ -19,7 +19,7 @@ import Application from "components/Application";
 afterEach(cleanup);
 
 describe("Application", () => {
-  xit("changes the schedule when a new day is selected", async () => {
+  it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
     await waitForElement(() => getByText("Monday"));
     fireEvent.click(getByText("Tuesday"));
