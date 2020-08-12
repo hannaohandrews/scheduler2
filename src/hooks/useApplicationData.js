@@ -58,7 +58,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    return axios.delete(`/api/appointments/${id}`, {appointment} )
+    axios.delete(`/api/appointments/${id}`, {appointment} )
     .then((res) => {
      
       const daysArray = [];
