@@ -93,5 +93,11 @@ describe("Application", () => {
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
 
+  /////////////////////
+
+  it("shows the save error when failing to save an appointment", () => {
+    axios.put.mockRejectedValueOnce();
+  });
+
 
 });
