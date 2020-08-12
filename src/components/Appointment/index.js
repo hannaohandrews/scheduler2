@@ -58,8 +58,7 @@ export default function Appointment(props) {
 
   function deletingInterview(id) {
     transition(DELETING, true);
-    props
-    .cancelInterview(props.id, transition, EMPTY, ERROR_DELETE)
+    props.cancelInterview(props.id).then(() => transition(EMPTY)).catch((error) => transition(ERROR_DELETE,true));
   }
 
   return (
@@ -107,7 +106,7 @@ export default function Appointment(props) {
           name={props.interview.student}
           onCancel={(event) => back()}
           onSave={save}
-          bookInterview = {props.bookInterview}
+          bookInterview={props.bookInterview}
           id = {props.id}
         />
       )}

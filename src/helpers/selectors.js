@@ -51,8 +51,6 @@ export function getInterviewersForDay(state, day) {
      id => state.interviewers[id]
    );
 
-   console.log('interviewers', interviewers)
-
    return interviewers;
  }
 

@@ -13,7 +13,6 @@ export default function useApplicationData() {
 
   // const [day, setday] = useState('Monday')
   const setDay = (day) => setState((prev) => ({ ...state, day }));
-  // const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   const setInterviewers = (interviewers) =>
     setState((prev) => ({ ...prev, interviewers }));
@@ -30,7 +29,7 @@ export default function useApplicationData() {
     };
 
     return axios
-      .put(`/api/appointments/${id}`, { interview })
+      .put(`/api/appointments/${id}`, appointment)
       .then((res) => {
         const daysArray = [];
         for (let i of state.days){
@@ -39,8 +38,8 @@ export default function useApplicationData() {
             daysArray[daysArray.indexOf(i)].spots -= 1;
           }
         }
-        setState({ ...state, days : daysArray });
-        return setState({...state, appointments});
+        return setState((prevState) => ({ ...prevState, appointments, days: daysArray }));
+       
       })
       .catch((err) => {
         console.log(err);
@@ -58,21 +57,27 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    axios.delete(`/api/appointments/${id}`, {appointment} )
+    return axios.delete(`/api/appointments/${id}`)
     .then((res) => {
-     
+
       const daysArray = [];
       for (let i of state.days) {
         daysArray.push(i);
+
         if (i.name === state.day) {
-          daysArray[daysArray.indexOf(i)].spots += 1;
+          console.log('HAFIZ IS THE BEST',i,daysArray.indexOf(i));
+          daysArray[daysArray.indexOf(i)].spots = daysArray[daysArray.indexOf(i)].spots + 1;
         }
       }
-      console.log('daysArray',daysArray)
-      setState({...state, days: daysArray});
-      return setState({...state, appointments: appointments});
+      
+      console.log('CONSOLELOGGG',state.day,daysArray)
+
+      return setState((prevState) => ({ ...prevState, appointments, days: daysArray }));
     })
-  };
+    .catch((err) => {
+      console.log(err);
+    });
+  }
 
 
   React.useEffect(() => {

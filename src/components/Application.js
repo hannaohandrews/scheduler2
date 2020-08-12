@@ -6,6 +6,7 @@ import "components/Application.scss";
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
+  
  
   const {
     state,
