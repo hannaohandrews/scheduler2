@@ -84,9 +84,8 @@ export default {
       }
     }),
 
-
     put: jest.fn(url => {
-      if (url === "/api/days") {
+      if (url.startsWith("/api/days")) {
         return Promise.resolve({
           status: 204,
           statusText: "OK",
@@ -94,7 +93,7 @@ export default {
         });
       }
   
-      if (url === "/api/appointments") {
+      if (url.startsWith("/api/appointments")) {
         /* Resolve appointments data */
         return Promise.resolve({
           status: 204,
@@ -103,7 +102,7 @@ export default {
         });
       }
   
-      if (url === "/api/interviewers") {
+      if (url.startsWith("/api/interviewers")) {
         /* Resolve interviewers data */
         return Promise.resolve({
           status: 204,
@@ -112,8 +111,6 @@ export default {
         });
       }
     })
-
-
 
 
   };

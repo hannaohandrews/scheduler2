@@ -6,7 +6,7 @@ import "components/Application.scss";
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-
+ 
   const {
     state,
     setDay,
@@ -14,6 +14,9 @@ export default function Application(props) {
     cancelInterview,
   } = useApplicationData();
 
+
+  console.log('state', state);
+  
   // let appointments = getAppointmentsForDay(state, state.day);
   let interviewers = getInterviewersForDay(state, state.day);
 
@@ -29,6 +32,8 @@ export default function Application(props) {
       />
     )
   })
+
+  console.log('schedule',schedule);
 
   return (
     <main className="layout">
@@ -51,7 +56,6 @@ export default function Application(props) {
       <section className="schedule">
         <section className="schedule">
           {schedule}
-          <Appointment key="last" time="5pm" />
         </section>
       </section>
     </main>
