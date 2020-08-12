@@ -10,8 +10,6 @@ import Confirm from './Confirm';
 import useVisualMode from '../../hooks/useVisualMode';
 
 export default function Appointment(props) {
-
-  console.log('Appointmentprops', props)
   
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -57,11 +55,6 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch((error) => transition(ERROR_SAVE, true));
   };
-
-  // const remove = () => {
-  //   transition(CONFIRM);
-  // };
-
 
   function deletingInterview(id) {
     transition(DELETING, true);

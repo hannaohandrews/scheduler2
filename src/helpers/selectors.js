@@ -39,8 +39,6 @@ export function getInterview(state, interview) {
 
 // Gets the interviewers for a given day
 export function getInterviewersForDay(state, day) {
-  console.log('state', state)
-  console.log('day',day)
 
 
    const currentDay = state.days.find((d) => d.name === day);
@@ -49,8 +47,6 @@ export function getInterviewersForDay(state, day) {
      return [];
    }
 
-   console.log('currentDay',currentDay)
-   
    const interviewers = currentDay.interviewers.map (
      id => state.interviewers[id]
    );

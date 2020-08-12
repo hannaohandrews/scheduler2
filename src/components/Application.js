@@ -15,7 +15,7 @@ export default function Application(props) {
   } = useApplicationData();
 
 
-  console.log('state', state);
+  // console.log('state', state);
   
   // let appointments = getAppointmentsForDay(state, state.day);
   let interviewers = getInterviewersForDay(state, state.day);
@@ -33,7 +33,7 @@ export default function Application(props) {
     )
   })
 
-  console.log('schedule',schedule);
+  // console.log('schedule',schedule);
 
   return (
     <main className="layout">
