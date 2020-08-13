@@ -56,6 +56,7 @@ export default function Appointment(props) {
         .editInterview(props.id, interview)
         .then(() => {
           transition(SHOW);
+          // console.log('I am going to editInterview')
         })
         .catch(error => transition(ERROR_SAVE, true));
     } else {
@@ -64,8 +65,10 @@ export default function Appointment(props) {
         .bookInterview(props.id, interview)
         .then(() => {
           transition(SHOW);
+          // console.log('I am going to bookInterview')
         })
         .catch((error) => transition(ERROR_SAVE, true));
+       
     }
   };
 

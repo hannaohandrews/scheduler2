@@ -103,6 +103,7 @@ export default function useApplicationData() {
       };
 
       console.log('useApp, interview',interview)
+      console.log("appointments",appointments)
   
       return axios.put(`/api/appointments/${id}`,{interview})
       .then((res) => {

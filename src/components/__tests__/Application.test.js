@@ -101,56 +101,45 @@ describe("Application", () => {
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
-   
+
     // 3. Click the "Edit" button on the booked appointment.
     const appointment = getAllByTestId(
       container,
       "appointment"
     ).find((appointment) => queryByText(appointment, "Archie Cohen"));
-    
+
     fireEvent.click(getByAltText(appointment, "Edit"));
-   
+
     //4.Simulate the name being changed to "Archie Andrews"
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Archie Andrews" },
     });
- 
-    // 5. Click the "Save" button on the confirmation.
-    fireEvent.click(queryByText(appointment, "Save"));
 
+    // 5. Click the "Save" button on the confirmation.
+    fireEvent.click(getByText(appointment, "Save"));
+    
     // 6. Check that the element with the text "Deleting" is displayed.
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
-   
+
     //7. Check that the name has been updated
-    // const editedAppointment = getAllByTestId(container, "appointment")
-    const editedAppointment = getAllByTestId(container, "appointment").find((appointment) => queryByText(appointment, "Archie Andrews"));
 
- 
-    console.log('edited',editedAppointment)
-    // expect(getByText(editedAppointment, /Archie Andrews/i)).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment,  "Archie Andrews"));
 
-    debug();
-  //  //8. Check that the DayListItem with the text "Monday" still has 1 spot remaining
-  //    debug();
-  //    const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
+     //8. Check that the DayListItem with the text "Monday" still has 1 spot remaining
 
+       const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
 
-  //   expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+      expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
+    ///5//////////////////
 
+    it("shows the save error when failing to save an appointment", () => {
+      axios.put.mockRejectedValueOnce();
+    });
 
-
-
-
-//   ///5//////////////////
-
-//   it("shows the save error when failing to save an appointment", () => {
-//     axios.put.mockRejectedValueOnce();
-//   });
-
-//   ///6//////////////////
-//   it("shows the save error when failing to delete an appointment", () => {
-//     axios.delete.mockRejectedValueOnce();
-//   });
+    ///6//////////////////
+    it("shows the save error when failing to delete an appointment", () => {
+      axios.delete.mockRejectedValueOnce();
+    });
 });
