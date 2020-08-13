@@ -74,16 +74,15 @@ export default function useApplicationData() {
     .then((res) => {
 
       const daysArray = [];
-      for (let i of state.days) {
-        daysArray.push(i);
-
-        if (i.name === state.day) {
-          console.log('HAFIZ IS THE BEST',i,daysArray.indexOf(i));
-          daysArray[daysArray.indexOf(i)].spots = daysArray[daysArray.indexOf(i)].spots + 1;
+      for (let i of state.days){
+        daysArray.push(i)
+        if(i.name === state.day) {
+          daysArray[daysArray.indexOf(i)] = {
+            ...i,
+            spots: i.spots + 1,
+          }
         }
       }
-      
-      console.log('CONSOLELOGGG',state.day,daysArray)
 
       return setState((prevState) => ({ ...prevState, appointments, days: daysArray }));
     })
@@ -91,6 +90,28 @@ export default function useApplicationData() {
       console.log(err);
     });
   }
+
+    // Editing Interview 
+    function editInterview(id,interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+      console.log('useApp, interview',interview)
+  
+      return axios.put(`/api/appointments/${id}`,{interview})
+      .then((res) => {
+        return setState((prevState) => ({ ...prevState, appointments }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
 
 
   React.useEffect(() => {
@@ -113,5 +134,6 @@ export default function useApplicationData() {
     setDay,
     bookInterview,
     cancelInterview,
+    editInterview
   };
 }

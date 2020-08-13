@@ -12,7 +12,7 @@ export default function useVisualMode(initial) {
     
         setMode(mode);
         setHistory([...history,mode]);
-        console.log('added',history)
+
       }
   }
 
