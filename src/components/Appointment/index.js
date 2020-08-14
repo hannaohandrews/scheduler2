@@ -20,8 +20,6 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
-
-
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -56,19 +54,16 @@ export default function Appointment(props) {
         .editInterview(props.id, interview)
         .then(() => {
           transition(SHOW);
-          // console.log('I am going to editInterview')
         })
-        .catch(error => transition(ERROR_SAVE, true));
+        .catch((error) => transition(ERROR_SAVE, true));
     } else {
       // make a put request, when it completes transition to SHOW mode
       props
         .bookInterview(props.id, interview)
         .then(() => {
           transition(SHOW);
-          // console.log('I am going to bookInterview')
         })
         .catch((error) => transition(ERROR_SAVE, true));
-       
     }
   };
 
@@ -84,9 +79,7 @@ export default function Appointment(props) {
 
   return (
     <article className="appointment" data-testid="appointment">
-      <Header 
-      time={props.time} 
-      />
+      <Header time={props.time} />
 
       {mode === EMPTY && <Empty onAdd={onAdd} />}
 
@@ -102,7 +95,7 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
-          onCancel={event => back()}
+          onCancel={(event) => back()}
           onSave={save}
           bookInterview={props.bookInterview}
           id={props.id}
@@ -113,7 +106,7 @@ export default function Appointment(props) {
 
       {mode === CONFIRM && (
         <Confirm
-          message= {"Are you sure you would like to delete?"}
+          message={"Are you sure you would like to delete?"}
           onCancel={(event) => back()}
           onConfirm={(event) => deletingInterview(props.id)}
         />
@@ -132,9 +125,9 @@ export default function Appointment(props) {
       )}
 
       {mode === DELETING && <Status message={"Deleting"} />}
-      
+
       {mode === SAVING && <Status message={"Saving"} />}
-      
+
       {mode === ERROR_DELETE && (
         <Error message="Error Deleting Appointment" onClose={() => back()} />
       )}
