@@ -2,7 +2,7 @@
 
 ## Description 
 
-This application is called "Interview Scheduler where the user can create, edit and delete interview appointments.
+This application is called "Interview Scheduler" where the user can create, edit and delete interview appointments.
 
 ## Setup
 
