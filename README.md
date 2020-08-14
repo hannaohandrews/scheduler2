@@ -25,3 +25,5 @@ npm test
 ```sh
 npm run storybook
 ```
+
+![alt text](https://github.com/hannaohandrews/scheduler/blob/master/docs/days.png?raw=true)
