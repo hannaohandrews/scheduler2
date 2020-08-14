@@ -1,5 +1,9 @@
 # Interview Scheduler
 
+## Description 
+
+This application is called "Interview Scheduler. With this application, the user can create, edit and delete interview appointments.
+
 ## Setup
 
 Install dependencies with `npm install`.
