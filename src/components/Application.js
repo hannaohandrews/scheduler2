@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../helpers/selectors';
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
 import "components/Application.scss";
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
- 
   const {
     state,
     setDay,
@@ -14,25 +17,24 @@ export default function Application(props) {
     cancelInterview,
     editInterview,
   } = useApplicationData();
-  
-  // let appointments = getAppointmentsForDay(state, state.day);
 
+  const schedule = getAppointmentsForDay(state, state.day).map(
+    (appointment) => {
+      let interviewers = getInterviewersForDay(state, state.day);
 
-  const schedule = getAppointmentsForDay(state, state.day).map((appointment) => {
-    let interviewers = getInterviewersForDay(state, state.day);
-
-    return (
-      <Appointment 
-      key={appointment.id}
-      {...appointment} 
-      interview={getInterview(state, appointment.interview)} 
-      interviewers={interviewers} 
-      bookInterview={bookInterview} 
-      cancelInterview={cancelInterview} 
-      editInterview={editInterview}
-      />
-    )
-  })
+      return (
+        <Appointment
+          key={appointment.id}
+          {...appointment}
+          interview={getInterview(state, appointment.interview)}
+          interviewers={interviewers}
+          bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
+          editInterview={editInterview}
+        />
+      );
+    }
+  );
 
   return (
     <main className="layout">
@@ -55,7 +57,7 @@ export default function Application(props) {
       <section className="schedule">
         <section className="schedule">
           {schedule}
-          <Appointment time={"5pm"}/>
+          <Appointment time={"5pm"} />
         </section>
       </section>
     </main>

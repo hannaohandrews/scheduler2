@@ -19,7 +19,6 @@ import Application from "components/Application";
 afterEach(cleanup);
 
 describe("Application", () => {
-  ///1///
   it("defaults to Monday and changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
     await waitForElement(() => getByText("Monday"));
@@ -27,7 +26,6 @@ describe("Application", () => {
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
-  ///2///////////////////////////////////////
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container, debug } = render(<Application />);
 
@@ -56,7 +54,6 @@ describe("Application", () => {
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
-  ///3///////////////////////////////////////
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
     const { container } = render(<Application />);
@@ -94,7 +91,6 @@ describe("Application", () => {
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
 
-  ///3///////////////////////////////////////
   it("loads data, edits an interview and increases the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
     const { container, debug } = render(<Application />);
@@ -117,29 +113,28 @@ describe("Application", () => {
 
     // 5. Click the "Save" button on the confirmation.
     fireEvent.click(getByText(appointment, "Save"));
-    
+
     // 6. Check that the element with the text "Deleting" is displayed.
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
 
     //7. Check that the name has been updated
 
-    await waitForElement(() => getByText(appointment,  "Archie Andrews"));
+    await waitForElement(() => getByText(appointment, "Archie Andrews"));
 
-     //8. Check that the DayListItem with the text "Monday" still has 1 spot remaining
+    //8. Check that the DayListItem with the text "Monday" still has 1 spot remaining
 
-       const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
+    const day = getAllByTestId(container, "day").find((day) =>
+      queryByText(day, "Monday")
+    );
 
-      expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
-    ///5//////////////////
+  it("shows the save error when failing to save an appointment", () => {
+    axios.put.mockRejectedValueOnce();
+  });
 
-    it("shows the save error when failing to save an appointment", () => {
-      axios.put.mockRejectedValueOnce();
-    });
-
-    ///6//////////////////
-    it("shows the save error when failing to delete an appointment", () => {
-      axios.delete.mockRejectedValueOnce();
-    });
+  it("shows the save error when failing to delete an appointment", () => {
+    axios.delete.mockRejectedValueOnce();
+  });
 });

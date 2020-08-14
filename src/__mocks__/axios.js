@@ -3,8 +3,8 @@ const fixtures = {
     {
       id: 1,
       name: "Monday",
-      appointments: [1,2],
-      interviewers: [1,2],
+      appointments: [1, 2],
+      interviewers: [1, 2],
       spots: 1,
     },
     {
@@ -55,7 +55,7 @@ const fixtures = {
 
 export default {
   defaults: { baseURL: "" },
-  
+
   put: jest.fn(() => {
     return Promise.resolve({
       status: 204,

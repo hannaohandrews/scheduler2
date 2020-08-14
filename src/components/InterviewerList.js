@@ -9,8 +9,6 @@ InterviewerList.propTypes = {
 };
 
 export default function InterviewerList(props) {
-
-  
   const interviewers = props.interviewers.map((interviewer) => {
     return (
       <InterviewerListItem
@@ -20,8 +18,8 @@ export default function InterviewerList(props) {
         avatar={interviewer.avatar}
         selected={props.value === interviewer.id}
         onChange={props.onChange}
-        setInterviewer={() => props.onChange(interviewer.id)}>
-        </InterviewerListItem>
+        setInterviewer={() => props.onChange(interviewer.id)}
+      ></InterviewerListItem>
     );
   });
 

@@ -10,13 +10,10 @@ export function getAppointmentsForDay(state, day) {
   const appointments = currentDay.appointments.map(
     (id) => state.appointments[id]
   );
- 
-  // console.log(appointments)
   return appointments;
 }
 
-
-// An Interview
+// Get interview of the day
 export function getInterview(state, interview) {
   if (!interview || interview === null) {
     return null;
@@ -25,32 +22,21 @@ export function getInterview(state, interview) {
     student: interview.student,
   };
 
-  //  console.log('interviewOb',interviewObj)
-
   interviewObj.interviewer = state.interviewers[interview.interviewer];
-
-  //  console.log('interviewOb2', interviewObj.interviewer)
-  //  console.log('interviewOb3', interview.interviewer)
-  //  console.log('interviewOb4',state.interviewers[interview.interviewer])
-  //  console.log('interviewOb5',interviewObj)
-
   return interviewObj;
 }
 
 // Gets the interviewers for a given day
 export function getInterviewersForDay(state, day) {
+  const currentDay = state.days.find((d) => d.name === day);
 
+  if (!currentDay) {
+    return [];
+  }
 
-   const currentDay = state.days.find((d) => d.name === day);
-   
-   if (!currentDay) {
-     return [];
-   }
+  const interviewers = currentDay.interviewers.map(
+    (id) => state.interviewers[id]
+  );
 
-   const interviewers = currentDay.interviewers.map (
-     id => state.interviewers[id]
-   );
-
-   return interviewers;
- }
-
+  return interviewers;
+}

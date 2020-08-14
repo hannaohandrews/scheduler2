@@ -68,7 +68,6 @@ export default function Appointment(props) {
   };
 
   //Deletes interview when clicked
-
   function deletingInterview(id) {
     transition(DELETING, true);
     props
