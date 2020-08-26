@@ -24,22 +24,33 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  React.useEffect(()=> {
+    if(props.interview && mode ===EMPTY){
+      transition(SHOW)
+    }
+
+    if(props.interview === null && mode ===SHOW){
+      transition(EMPTY)
+    }
+
+  },[props.interview,mode, transition])
+
   const onAdd = () => {
     transition(CREATE);
   };
 
-  const onDelete = () => {
-    transition(CONFIRM);
-  };
+  // const onDelete = () => {
+  //   transition(CONFIRM);
+  // };
 
   const onEdit = () => {
     transition(EDIT);
   };
 
-  const cancel = () => {
-    transition(DELETING);
-    transition(EMPTY);
-  };
+  // const cancel = () => {
+  //   transition(DELETING);
+  //   transition(EMPTY);
+  // };
 
   // bookInterview and edit
   const save = (name, interviewer) => {
@@ -63,17 +74,20 @@ export default function Appointment(props) {
         .then(() => {
           transition(SHOW);
         })
-        .catch((error) => transition(ERROR_SAVE, true));
+        .catch(error => transition(ERROR_SAVE, true));
     }
   };
 
   //Deletes interview when clicked
-  function deletingInterview(id) {
+  function deletingInterview(event) {
     transition(DELETING, true);
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch((error) => transition(ERROR_DELETE, true));
+      .catch(error => {
+        console.log('HIIIII', error)
+        transition(ERROR_DELETE, true)
+      });
   }
 
   return (
@@ -107,7 +121,7 @@ export default function Appointment(props) {
         <Confirm
           message={"Are you sure you would like to delete?"}
           onCancel={(event) => back()}
-          onConfirm={(event) => deletingInterview(props.id)}
+          onConfirm={deletingInterview}
         />
       )}
 
@@ -128,11 +142,11 @@ export default function Appointment(props) {
       {mode === SAVING && <Status message={"Saving"} />}
 
       {mode === ERROR_DELETE && (
-        <Error message="Error Deleting Appointment" onClose={() => back()} />
+        <Error message="Error Deleting Appointment" onClose={back} />
       )}
 
       {mode === ERROR_SAVE && (
-        <Error message="Error Saving Appointment" onClose={() => back()} />
+        <Error message="Error Saving Appointment" onClose={back} />
       )}
     </article>
   );

@@ -40,15 +40,6 @@ export default function useApplicationData() {
             };
           }
         }
-        // const daysArray = state.days.map(day => {
-        //   if (day.name === state.day) {
-        //     return {
-        //       ...day,
-        //       spots: day.spots - 1
-        //     }
-        //   }
-        //   return { ...day }
-        // })
 
         setState((prevState) => ({
           ...prevState,
@@ -56,9 +47,10 @@ export default function useApplicationData() {
           days: daysArray,
         }));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      // .catch((err) => {
+      //   console.log(err);
+      //   return err;
+      // });
   }
 
   // Cancelling Interview
@@ -86,15 +78,17 @@ export default function useApplicationData() {
           }
         }
 
-        return setState((prevState) => ({
+        setState((prevState) => ({
           ...prevState,
           appointments,
           days: daysArray,
         }));
+        return res;
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      // .catch((err) => {
+      //   console.log(err);
+      //   throw err
+      // });
   }
 
   // Editing Interview
