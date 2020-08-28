@@ -110,9 +110,9 @@ export default function useApplicationData() {
       .then((res) => {
         return setState((prevState) => ({ ...prevState, appointments }));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      // .catch((err) => {
+      //   console.log(err);
+      // });
   }
 
   React.useEffect(() => {

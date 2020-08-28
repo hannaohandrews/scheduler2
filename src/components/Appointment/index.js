@@ -64,9 +64,12 @@ export default function Appointment(props) {
       props
         .editInterview(props.id, interview)
         .then(() => {
+          console.log('Hello')
           transition(SHOW);
         })
-        .catch((error) => transition(ERROR_SAVE, true));
+        .catch((error) =>{
+          console.log('ERROR',error)
+          transition(ERROR_SAVE, true)});
     } else {
       // make a put request, when it completes transition to SHOW mode
       props
@@ -89,6 +92,8 @@ export default function Appointment(props) {
         transition(ERROR_DELETE, true)
       });
   }
+
+  console.log('props', props.interview)
 
   return (
     <article className="appointment" data-testid="appointment">
